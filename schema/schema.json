@@ -1,0 +1,96 @@
+{
+    "type": "object",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "http://project-open-data.github.io/schema#",
+    "description": "Common Core Metadata Schema",
+    "type": "object",
+    "required": ["title", "description", "keyword", "modified", "publisher", "contactPoint", "mbox", "identifier", "accessLevel"],
+    "properties": {
+        "accessLevel": {
+            "enum": ["public", "restricted public", "non-public"]
+        },
+        "accessLevelComment": {
+            "type": "string"
+        },
+        "accrualPeriodicity": {
+            "type": "string"
+        },
+        "category": {
+            "type": "string"
+        },
+        "contactPoint": {
+            "type": "string"
+        },
+        "dataDictionary": {
+            "type": "string"
+        },
+        "dataQuality": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "distribution": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "accessURL": {
+                        "type": "string"
+                    },
+                    "format": {
+                        "type": "string"
+                    },
+                    "identifier": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "granularity": {
+            "type": "string"
+        },
+        "identifier": {
+            "type": "string"
+        },
+        "issued": {
+            "type": "string"
+        },
+        "landingPage": {
+            "type": "string"
+        },
+        "license": {
+            "type": "string"
+        },
+        "mbox": {
+            "type": "string"
+        },
+        "modified": {
+            "type": "string"
+        },
+        "organization": {
+            "type": "string"
+        },
+        "publisher": {
+            "type": "string"
+        },
+        "relatedDocuments": {
+            "type": "string"
+        },
+        "size": {
+            "type": "string"
+        },
+        "spatial": {
+            "type": "string"
+        },
+        "systemOfRecords": {
+            "type": "string"
+        },
+        "temporal": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string"
+        }
+    }
+}

@@ -1,5 +1,4 @@
 {
-    "type": "object",
     "$schema": "http://json-schema.org/draft-04/schema#",
     "id": "http://project-open-data.github.io/schema#",
     "description": "Common Core Metadata Schema",
@@ -13,19 +12,28 @@
             "type": "string"
         },
         "accrualPeriodicity": {
-            "type": "string"
+            "enum": ["Annual", "Bimonthly", "Semiweekly", "Daily", "Biweekly", "Semiannual", "Biennial", "Triennial",
+                "Three times a week", "Three times a month", "Continuously updated", "Monthly", "Quarterly", "Semimonthly",
+                "Three times a year", "Weekly", "Completely irregular"]
         },
-        "category": {
-            "type": "string"
+        "bureauCode": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "[0-9]{3}:[0-9]{2}"
+            },
+            "minItems": 1,
+            "uniqueItems": true
         },
         "contactPoint": {
             "type": "string"
         },
         "dataDictionary": {
-            "type": "string"
+            "type": "string",
+            "format": "uri"
         },
         "dataQuality": {
-            "type": "string"
+            "type": "boolean"
         },
         "description": {
             "type": "string"
@@ -36,49 +44,79 @@
                 "type": "object",
                 "properties": {
                     "accessURL": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "uri"
                     },
                     "format": {
-                        "type": "string"
-                    },
-                    "identifier": {
+                        "pattern": "^[-a-fA-F0-9]+/[-a-fA-F0-9]+([+][-a-fA-F0-9]+)?$",
                         "type": "string"
                     }
                 }
-            }
-        },
-        "granularity": {
-            "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
         },
         "identifier": {
-            "type": "string"
+            "type": "string",
+            "pattern": "[0-9a-fA-F]+"
         },
         "issued": {
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
+        },
+        "keyword": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
         },
         "landingPage": {
-            "type": "string"
+            "type": "string",
+            "format": "uri"
+        },
+        "language": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[a-zA-Z]+(-[a-zA-Z]+)*$"
+            }
         },
         "license": {
             "type": "string"
         },
         "mbox": {
-            "type": "string"
+            "type": "string",
+            "format": "email"
         },
         "modified": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "PrimaryITInvestmentUII": {
             "type": "string"
         },
-        "organization": {
-            "type": "string"
+        "programCode": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "[0-9]{3}:[0-9]{3}"
+            },
+            "minItems": 1,
+            "uniqueItems": true
         },
         "publisher": {
             "type": "string"
         },
-        "relatedDocuments": {
-            "type": "string"
-        },
-        "size": {
-            "type": "string"
+        "references": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "format": "uri"
+            },
+            "minItems": 1,
+            "uniqueItems": true
         },
         "spatial": {
             "type": "string"
@@ -87,10 +125,22 @@
             "type": "string"
         },
         "temporal": {
-            "type": "string"
+            "type": "array"
+        },
+        "theme": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
         },
         "title": {
             "type": "string"
+        },
+        "webService": {
+            "type": "string",
+            "format": "uri"
         }
     }
 }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Validate a Data.json entry</title>
+    <!-- JSON schema validation library -->
+    <script src="js/tv4.min.js"></script>
+    <!-- include jquery for code examples-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- JSON-js to stringify responses and load strings to javascript objects -->
+    <script src="http://cdn.jsdelivr.net/json2/0.1/json2.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+</head>
+<body>
+<div id="validation_demo">
+    <h2>Validation Demo</h2>
+
+    <form class="pure-form pure-form-stacked" onsubmit="return false;">
+        <legend>Validate a single data.json entry using <a href="http://geraintluff.github.io/tv4/">Tiny Validator</a></legend>
+        <textarea id="datajson" class="scrollable"></textarea>
+        <button id="examplebtn" class="pure-button pure-button-primary">Toggle Example</button>
+        <button type="submit" class="pure-button pure-button-primary" onclick="validate();">Validate</button>
+    </form>
+
+    <div id="val_demo_sample" class="code">
+       <h3>Data.json Example (Has Errors)</h3>
+        <div id="example">
+            <!-- Example code goes here -->
+        </div>
+    </div>
+
+    <div id="output">
+        <!-- Validation text goes here -->
+    </div>
+</div>
+
+<script type="text/javascript">
+    var schema;
+    var example =         {
+        "title": "Data Catalog",
+        "description": "Version 1.0",
+        "keyword": "catalog",
+        "modified": "2013-05-09 06:00:00",
+        "publisher": "US Department of X",
+        "person": "Contact Person",
+        "mbox": "contact.person@agency.gov",
+        "identifier": "1",
+        "accessLevel": "public",
+        "distribution": [
+            {
+                "accessURL": "http://agency.gov/data.json",
+                "format": "json"
+            }
+        ]
+    }
+
+    $(document).ready(function () {
+        //Load the example
+        $("#example").replaceWith("<pre><code>"+JSON.stringify(example, undefined, indent=2)+"</code></pre>");
+
+        //Load example toggle functionality
+        $("#examplebtn").click(function(){
+            $(".code").toggle("slow");
+        });
+
+
+
+        //load the schema file
+        $.ajax({
+                    "url": "schema/schema_1_0_final.json",
+                    "dataType": "json",
+                    "success": function (data) {
+                        schema = data;
+                    },
+                    "error": function (error) {
+                        alert('schema read failed!')
+                    }
+                }
+        );
+
+    })
+
+    //Called to validate JSON data
+    function validate() {
+        var data = $("#datajson").val();
+        try {
+            var result = tv4.validateMultiple(JSON.parse(data), schema);
+            $("#output").replaceWith("<div id=output><h3>Result:</h3><pre><code>"+JSON.stringify(result, undefined, 2)+"</code></pre></div>");
+        } catch (err) {
+            $("#output").replaceWith("<div id=output><h3>Result:</h3><strong>Invalid JSON</strong></div>");
+            alert("invalid json");
+        }
+
+        return false;
+    }
+
+</script>
+
+</body>
+</html>

@@ -16,7 +16,7 @@
     <h2>Validation Demo</h2>
 
     <form class="pure-form pure-form-stacked" onsubmit="return false;">
-        <legend>Validate a single data.json entry using <a href="http://geraintluff.github.io/tv4/">Tiny Validator</a></legend>
+        <legend>Validates Data.json entry using <a href="http://http://json-schema.org/">JSON schema</a> and <a href="http://geraintluff.github.io/tv4/">Tiny Validator</a></legend>
         <textarea id="datajson" class="scrollable"></textarea>
         <button id="examplebtn" class="pure-button pure-button-primary">Toggle Example</button>
         <button type="submit" class="pure-button pure-button-primary" onclick="validate();">Validate</button>
@@ -82,9 +82,16 @@
 
     //Called to validate JSON data
     function validate() {
+        var validationSchema = schema;
         var data = $("#datajson").val();
         try {
-            var result = tv4.validateMultiple(JSON.parse(data), schema);
+            var parsedData = JSON.parse(data);
+            if(parsedData instanceof Array){
+                //Expand schema to cover an array of objects instead of just a single object
+                validationSchema  = {"type":"array", "items":validationSchema, "minItems":1, "uniqueItems":true};
+                console.log(JSON.stringify(validationSchema, undefined, indent=2));
+            }
+            var result = tv4.validateMultiple(parsedData, validationSchema);
             $("#output").replaceWith("<div id=output><h3>Result:</h3><pre><code>"+JSON.stringify(result, undefined, 2)+"</code></pre></div>");
         } catch (err) {
             $("#output").replaceWith("<div id=output><h3>Result:</h3><strong>Invalid JSON</strong></div>");

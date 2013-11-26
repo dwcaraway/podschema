@@ -125,7 +125,7 @@
             "type": "string"
         },
         "temporal": {
-            "type": "array"
+            "type": "string"
         },
         "theme": {
             "type": "array",
